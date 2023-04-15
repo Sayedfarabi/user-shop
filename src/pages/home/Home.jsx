@@ -7,17 +7,31 @@ import { setAvailability, setDomain, setGender } from '../../redux/action-creato
 
 
 const Home = () => {
-    const { users } = useContext(DataProvider);
 
+    // JSON Data 
+    const { users } = useContext(DataProvider);
     const [pageNumber, setPageNumber] = useState(1)
     const domains = [];
     const dataShow = 20;
     const length = users?.length;
     const pages = Math.ceil(length / dataShow);
     const [limitUsers, setLimitUsers] = useState([])
+
+    // Redux 
     const dispatch = useDispatch();
     const state = useSelector(state => state);
-    // console.log(state);
+    const domain = state.domain;
+    const gender = state.gender;
+    const availability = state.available;
+    // console.log(domain, gender, availability);
+
+    // CSS Classes 
+    const activeDiv = "btn btn-sm bg-blue-800 hover:bg-blue-700 mx-4 my-2";
+    const deactivateDiv = "mx-4 p-1 border rounded-md";
+    const activeSelect = "bg-blue-800 hover:bg-blue-700";
+    const deactivateSelect = "";
+
+
 
 
     for (const user of users) {
@@ -29,10 +43,10 @@ const Home = () => {
     }
 
 
+
+
     const previousHandle = () => {
         const currentPage = pageNumber - 1;
-
-
         if (currentPage > 0) {
             setPageNumber(currentPage)
             const endIndex = currentPage * dataShow;
@@ -66,16 +80,18 @@ const Home = () => {
         }
     }
 
+
+
     return (
         <section>
 
             <div className='flex flex-col-reverse md:flex-row justify-between items-center mx-4 md:mx-6 my-8 md:my-12'>
                 <div className='flex flex-col md:flex-row justify-start items-center'>
-                    <div className='btn btn-sm bg-blue-800 hover:bg-blue-700 mx-4 my-2'>
+                    <div className={`${domain ? activeDiv : deactivateDiv}`}>
                         <form>
                             <div>
                                 <label htmlFor="domain"></label>
-                                <select onChange={(e) => dispatch(setDomain(e.target.value))} className='bg-blue-800 hover:bg-blue-700' name="domain">
+                                <select onChange={(e) => dispatch(setDomain(e.target.value))} className={`${domain ? activeSelect : deactivateSelect}`} name="domain">
                                     <option className='font-semibold' value={"none"}>Select Domain</option>
                                     {
                                         domains &&
@@ -87,11 +103,11 @@ const Home = () => {
                             </div>
                         </form>
                     </div>
-                    <div className='btn btn-sm bg-blue-800 hover:bg-blue-700 mx-4 my-2'>
+                    <div className={`${gender ? activeDiv : deactivateDiv}`}>
                         <form>
                             <div>
                                 <label htmlFor="gender"></label>
-                                <select onChange={(e) => dispatch(setGender(e.target.value))} className='bg-blue-800 hover:bg-blue-700' name="gender">
+                                <select onChange={(e) => dispatch(setGender(e.target.value))} className={`${gender ? activeSelect : deactivateSelect}`}>
                                     <option className='font-semibold' value="none">Select Gender</option>
                                     <option className='bg-white text-black' value="Male">Male</option>
                                     <option className='bg-white text-black' value="Female">Female</option>
@@ -99,11 +115,11 @@ const Home = () => {
                             </div>
                         </form>
                     </div>
-                    <div className='btn btn-sm bg-blue-800 hover:bg-blue-700 mx-4 my-2'>
+                    <div className={`${availability ? activeDiv : deactivateDiv}`}>
                         <form>
                             <div>
                                 <label htmlFor="availability"></label>
-                                <select onChange={(e) => dispatch(setAvailability(e.target.value))} className='bg-blue-800 hover:bg-blue-700' name="gender">
+                                <select onChange={(e) => dispatch(setAvailability(e.target.value))} className={`${availability ? activeSelect : deactivateSelect}`}>
                                     <option className='font-semibold' value={"none"}>Select availability</option>
                                     <option className='bg-white text-black' value={true}>Available</option>
                                     <option className='bg-white text-black' value={false}>Unavailable</option>
