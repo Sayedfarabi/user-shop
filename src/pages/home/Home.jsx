@@ -1,6 +1,8 @@
 import React, { useContext, useState } from 'react';
 import { DataProvider } from '../../layout/Root';
 import Card from '../../components/card/Card';
+import { useDispatch, useSelector } from 'react-redux';
+import { setAvailability, setDomain, setGender } from '../../redux/action-creators/actionCreators';
 
 
 
@@ -13,8 +15,9 @@ const Home = () => {
     const length = users?.length;
     const pages = Math.ceil(length / dataShow);
     const [limitUsers, setLimitUsers] = useState([])
-
-
+    const dispatch = useDispatch();
+    const state = useSelector(state => state);
+    // console.log(state);
 
 
     for (const user of users) {
@@ -72,8 +75,8 @@ const Home = () => {
                         <form>
                             <div>
                                 <label htmlFor="domain"></label>
-                                <select className='bg-blue-800 hover:bg-blue-700' name="domain">
-                                    <option className='font-semibold' value="">Select Domain</option>
+                                <select onChange={(e) => dispatch(setDomain(e.target.value))} className='bg-blue-800 hover:bg-blue-700' name="domain">
+                                    <option className='font-semibold' value={"none"}>Select Domain</option>
                                     {
                                         domains &&
                                         domains.map(domain => {
@@ -88,8 +91,8 @@ const Home = () => {
                         <form>
                             <div>
                                 <label htmlFor="gender"></label>
-                                <select className='bg-blue-800 hover:bg-blue-700' name="gender">
-                                    <option className='font-semibold' value="">Select Gender</option>
+                                <select onChange={(e) => dispatch(setGender(e.target.value))} className='bg-blue-800 hover:bg-blue-700' name="gender">
+                                    <option className='font-semibold' value="none">Select Gender</option>
                                     <option className='bg-white text-black' value="Male">Male</option>
                                     <option className='bg-white text-black' value="Female">Female</option>
                                 </select>
@@ -100,8 +103,8 @@ const Home = () => {
                         <form>
                             <div>
                                 <label htmlFor="availability"></label>
-                                <select className='bg-blue-800 hover:bg-blue-700' name="gender">
-                                    <option className='font-semibold' value="">Select availability</option>
+                                <select onChange={(e) => dispatch(setAvailability(e.target.value))} className='bg-blue-800 hover:bg-blue-700' name="gender">
+                                    <option className='font-semibold' value={"none"}>Select availability</option>
                                     <option className='bg-white text-black' value={true}>Available</option>
                                     <option className='bg-white text-black' value={false}>Unavailable</option>
                                 </select>

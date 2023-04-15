@@ -1,9 +1,18 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
+import { ADD_TO_TEAM, REMOVE_TO_TEAM } from '../../redux/action-types/actionTypes';
+import { useLocation } from 'react-router-dom';
+import { addToTeam, removeToTeam } from '../../redux/action-creators/actionCreators';
 
 
 const Card = ({ user }) => {
 
     const { avatar, first_name, last_name, email, gender, domain, available } = user;
+    const location = useLocation()
+    const pathname = location?.pathname;
+    // console.log(location);
+
+    const dispatch = useDispatch();
     return (
         <div className="group relative item-center justify-center overflow-hidden cursor-default hover:shadow-xl hover:shadow-black/30 trans transition-shadow mx-auto">
             <div className="h-96 w-72">
@@ -43,12 +52,24 @@ const Card = ({ user }) => {
                 <div className='mt-12'>
 
                     {
-
+                        pathname === "/" &&
                         <div className='w-full'>
                             {
                                 available &&
-                                <button
+                                <button onClick={() => dispatch(addToTeam(user))}
                                     className=' btn btn-md bg-yellow-500 hover:bg-red-500 text-xl capitalize text-black hover:text-white py-2' >Add to team
+                                </button>
+                            }
+
+                        </div>
+                    }
+                    {
+                        pathname === "/teams" &&
+                        <div className='w-full'>
+                            {
+                                available &&
+                                <button onClick={() => dispatch(removeToTeam(user))}
+                                    className=' btn btn-md bg-red-500 hover:bg-yellow-500 text-xl capitalize text-black hover:text-white py-2' >Remove to team
                                 </button>
                             }
 
